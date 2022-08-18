@@ -1,0 +1,3487 @@
+Terminals unused in grammar
+
+    SEMICOLON
+    LBRACK
+    RBRACK
+
+
+Grammar
+
+    0 $accept: Program $end
+
+    1 Program: GlobalStatementList
+
+    2 GlobalStatementList: GlobalStatementList GlobalStatement
+    3                    | GlobalStatement
+
+    4 GlobalStatement: PackageStmt NEWLINE
+    5                | FunctionDeclStmt
+    6                | NEWLINE
+
+    7 PackageStmt: PACKAGE IDENT
+
+    8 $@1: %empty
+
+    9 $@2: %empty
+
+   10 $@3: %empty
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 Type LBRACE $@2 StatementList $@3 RBRACE
+   12                 | FuncOpen LPAREN ParameterList RPAREN LBRACE RBRACE
+   13                 | FuncOpen LPAREN RPAREN Type LBRACE StatementList RBRACE
+
+   14 $@4: %empty
+
+   15 $@5: %empty
+
+   16 FunctionDeclStmt: FuncOpen LPAREN RPAREN LBRACE $@4 StatementList $@5 RBRACE
+
+   17 FuncOpen: FUNC IDENT
+
+   18 ParameterList: IDENT Type
+   19              | IDENT
+   20              | ParameterList COMMA IDENT Type
+   21              | ParameterList COMMA Literal
+
+   22 ReturnStmt: RETURN Expression
+   23           | RETURN
+
+   24 PrimaryExpr: Operand
+   25            | ConversionExpr
+
+   26 Expression: UnaryExpr
+   27           | Multiplication
+
+   28 Multiplication: Expression MUL Expression
+   29               | Expression QUO Expression
+   30               | Expression REM Expression
+   31               | Addition
+
+   32 Addition: Expression ADD Expression
+   33         | Expression SUB Expression
+   34         | Comparison
+
+   35 Comparison: Expression EQL Expression
+   36           | Expression NEQ Expression
+   37           | Expression LSS Expression
+   38           | Expression LEQ Expression
+   39           | Expression GTR Expression
+   40           | Expression GEQ Expression
+   41           | Logicand
+
+   42 Logicand: Expression LAND Expression
+   43         | Logicor
+
+   44 Logicor: Expression LOR Expression
+
+   45 UnaryExpr: PrimaryExpr
+   46          | ADD UnaryExpr
+   47          | SUB UnaryExpr
+   48          | NOT UnaryExpr
+
+   49 Operand: Literal
+   50        | IDENT
+   51        | LPAREN Expression RPAREN
+   52        | IDENT LPAREN RPAREN
+
+   53 $@6: %empty
+
+   54 Operand: IDENT LPAREN $@6 ParameterList RPAREN
+
+   55 Literal: INT_LIT
+   56        | FLOAT_LIT
+   57        | BOOL_LIT
+   58        | STRING_LIT
+
+   59 ConversionExpr: Type LPAREN Expression RPAREN
+
+   60 Type: INT
+   61     | FLOAT
+   62     | BOOL
+   63     | STRING
+
+   64 Statement: DeclarationStmt NEWLINE
+   65          | SimpleStmt NEWLINE
+   66          | Block
+   67          | IfStmt
+   68          | ForStmt
+   69          | SwitchStmt
+   70          | CaseStmt
+   71          | PrintStmt NEWLINE
+   72          | ReturnStmt NEWLINE
+   73          | NEWLINE
+
+   74 SimpleStmt: AssignmentStmt
+   75           | ExpressionStmt
+   76           | IncDecStmt
+
+   77 DeclarationStmt: VAR IDENT Type
+   78                | VAR IDENT Type ASSIGN Expression
+
+   79 $@7: %empty
+
+   80 AssignmentStmt: IDENT $@7 ASSIGN Expression
+   81               | Expression ADD_ASSIGN Expression
+   82               | Expression SUB_ASSIGN Expression
+   83               | Expression MUL_ASSIGN Expression
+   84               | Expression QUO_ASSIGN Expression
+   85               | Expression REM_ASSIGN Expression
+
+   86 ExpressionStmt: Expression
+
+   87 IncDecStmt: Expression INC
+   88           | Expression DEC
+
+   89 $@8: %empty
+
+   90 $@9: %empty
+
+   91 Block: LBRACE $@8 StatementList $@9 RBRACE
+
+   92 StatementList: Statement StatementList
+   93              | Statement
+
+   94 IfStmt: IF Condition Block ELSE IfStmt
+   95       | IF Condition Block ELSE Block
+   96       | IF Condition Block
+
+   97 Condition: Expression
+
+   98 $@10: %empty
+
+   99 ForStmt: FOR $@10 Condition Block
+
+  100 $@11: %empty
+
+  101 SwitchStmt: SWITCH Expression $@11 Block
+
+  102 $@12: %empty
+
+  103 CaseStmt: CASE INT_LIT $@12 COLON Block
+
+  104 $@13: %empty
+
+  105 CaseStmt: DEFAULT $@13 COLON Block
+
+  106 PrintStmt: PRINT LPAREN Expression RPAREN
+  107          | PRINTLN LPAREN Expression RPAREN
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    VAR (258) 77 78
+    NEWLINE (259) 4 6 64 65 71 72 73
+    PACKAGE (260) 7
+    INT (261) 60
+    FLOAT (262) 61
+    BOOL (263) 62
+    STRING (264) 63
+    ASSIGN (265) 78 80
+    ADD_ASSIGN (266) 81
+    SUB_ASSIGN (267) 82
+    MUL_ASSIGN (268) 83
+    QUO_ASSIGN (269) 84
+    REM_ASSIGN (270) 85
+    IF (271) 94 95 96
+    ELSE (272) 94 95
+    FOR (273) 99
+    SWITCH (274) 101
+    CASE (275) 103
+    DEFAULT (276) 105
+    SEMICOLON (277)
+    COMMA (278) 20 21
+    COLON (279) 103 105
+    PRINT (280) 106
+    PRINTLN (281) 107
+    RETURN (282) 22 23
+    FUNC (283) 17
+    LPAREN (284) 11 12 13 16 51 52 54 59 106 107
+    RPAREN (285) 11 12 13 16 51 52 54 59 106 107
+    LBRACE (286) 11 12 13 16 91
+    RBRACE (287) 11 12 13 16 91
+    LBRACK (288)
+    RBRACK (289)
+    LOR (290) 44
+    LAND (291) 42
+    GTR (292) 39
+    LSS (293) 37
+    GEQ (294) 40
+    LEQ (295) 38
+    EQL (296) 35
+    NEQ (297) 36
+    ADD (298) 32 46
+    SUB (299) 33 47
+    MUL (300) 28
+    QUO (301) 29
+    REM (302) 30
+    INC (303) 87
+    DEC (304) 88
+    NOT (305) 48
+    INT_LIT <i_val> (306) 55 103
+    FLOAT_LIT <f_val> (307) 56
+    BOOL_LIT <b_val> (308) 57
+    STRING_LIT <s_val> (309) 58
+    IDENT <s_val> (310) 7 17 18 19 20 50 52 54 77 78 80
+
+
+Nonterminals, with rules where they appear
+
+    $accept (56)
+        on left: 0
+    Program (57)
+        on left: 1
+        on right: 0
+    GlobalStatementList (58)
+        on left: 2 3
+        on right: 1 2
+    GlobalStatement (59)
+        on left: 4 5 6
+        on right: 2 3
+    PackageStmt (60)
+        on left: 7
+        on right: 4
+    FunctionDeclStmt <s_val> (61)
+        on left: 11 12 13 16
+        on right: 5
+    $@1 (62)
+        on left: 8
+        on right: 11
+    $@2 (63)
+        on left: 9
+        on right: 11
+    $@3 (64)
+        on left: 10
+        on right: 11
+    $@4 (65)
+        on left: 14
+        on right: 16
+    $@5 (66)
+        on left: 15
+        on right: 16
+    FuncOpen <s_val> (67)
+        on left: 17
+        on right: 11 12 13 16
+    ParameterList (68)
+        on left: 18 19 20 21
+        on right: 11 12 20 21 54
+    ReturnStmt (69)
+        on left: 22 23
+        on right: 72
+    PrimaryExpr <s_val> (70)
+        on left: 24 25
+        on right: 45
+    Expression <s_val> (71)
+        on left: 26 27
+        on right: 22 28 29 30 32 33 35 36 37 38 39 40 42 44 51 59 78 80 81 82 83 84 85 86 87 88 97 101 106 107
+    Multiplication <s_val> (72)
+        on left: 28 29 30 31
+        on right: 27
+    Addition <s_val> (73)
+        on left: 32 33 34
+        on right: 31
+    Comparison <s_val> (74)
+        on left: 35 36 37 38 39 40 41
+        on right: 34
+    Logicand <s_val> (75)
+        on left: 42 43
+        on right: 41
+    Logicor <s_val> (76)
+        on left: 44
+        on right: 43
+    UnaryExpr <s_val> (77)
+        on left: 45 46 47 48
+        on right: 26 46 47 48
+    Operand <s_val> (78)
+        on left: 49 50 51 52 54
+        on right: 24
+    $@6 (79)
+        on left: 53
+        on right: 54
+    Literal <s_val> (80)
+        on left: 55 56 57 58
+        on right: 21 49
+    ConversionExpr <s_val> (81)
+        on left: 59
+        on right: 25
+    Type <s_val> (82)
+        on left: 60 61 62 63
+        on right: 11 13 18 20 59 77 78
+    Statement (83)
+        on left: 64 65 66 67 68 69 70 71 72 73
+        on right: 92 93
+    SimpleStmt (84)
+        on left: 74 75 76
+        on right: 65
+    DeclarationStmt <s_val> (85)
+        on left: 77 78
+        on right: 64
+    AssignmentStmt (86)
+        on left: 80 81 82 83 84 85
+        on right: 74
+    $@7 (87)
+        on left: 79
+        on right: 80
+    ExpressionStmt (88)
+        on left: 86
+        on right: 75
+    IncDecStmt (89)
+        on left: 87 88
+        on right: 76
+    Block (90)
+        on left: 91
+        on right: 66 94 95 96 99 101 103 105
+    $@8 (91)
+        on left: 89
+        on right: 91
+    $@9 (92)
+        on left: 90
+        on right: 91
+    StatementList (93)
+        on left: 92 93
+        on right: 11 13 16 91 92
+    IfStmt (94)
+        on left: 94 95 96
+        on right: 67 94
+    Condition (95)
+        on left: 97
+        on right: 94 95 96 99
+    ForStmt (96)
+        on left: 99
+        on right: 68
+    $@10 (97)
+        on left: 98
+        on right: 99
+    SwitchStmt (98)
+        on left: 101
+        on right: 69
+    $@11 (99)
+        on left: 100
+        on right: 101
+    CaseStmt (100)
+        on left: 103 105
+        on right: 70
+    $@12 (101)
+        on left: 102
+        on right: 103
+    $@13 (102)
+        on left: 104
+        on right: 105
+    PrintStmt <s_val> (103)
+        on left: 106 107
+        on right: 71
+
+
+State 0
+
+    0 $accept: . Program $end
+
+    NEWLINE  shift, and go to state 1
+    PACKAGE  shift, and go to state 2
+    FUNC     shift, and go to state 3
+
+    Program              go to state 4
+    GlobalStatementList  go to state 5
+    GlobalStatement      go to state 6
+    PackageStmt          go to state 7
+    FunctionDeclStmt     go to state 8
+    FuncOpen             go to state 9
+
+
+State 1
+
+    6 GlobalStatement: NEWLINE .
+
+    $default  reduce using rule 6 (GlobalStatement)
+
+
+State 2
+
+    7 PackageStmt: PACKAGE . IDENT
+
+    IDENT  shift, and go to state 10
+
+
+State 3
+
+   17 FuncOpen: FUNC . IDENT
+
+    IDENT  shift, and go to state 11
+
+
+State 4
+
+    0 $accept: Program . $end
+
+    $end  shift, and go to state 12
+
+
+State 5
+
+    1 Program: GlobalStatementList .
+    2 GlobalStatementList: GlobalStatementList . GlobalStatement
+
+    NEWLINE  shift, and go to state 1
+    PACKAGE  shift, and go to state 2
+    FUNC     shift, and go to state 3
+
+    $default  reduce using rule 1 (Program)
+
+    GlobalStatement   go to state 13
+    PackageStmt       go to state 7
+    FunctionDeclStmt  go to state 8
+    FuncOpen          go to state 9
+
+
+State 6
+
+    3 GlobalStatementList: GlobalStatement .
+
+    $default  reduce using rule 3 (GlobalStatementList)
+
+
+State 7
+
+    4 GlobalStatement: PackageStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 14
+
+
+State 8
+
+    5 GlobalStatement: FunctionDeclStmt .
+
+    $default  reduce using rule 5 (GlobalStatement)
+
+
+State 9
+
+   11 FunctionDeclStmt: FuncOpen . LPAREN ParameterList RPAREN $@1 Type LBRACE $@2 StatementList $@3 RBRACE
+   12                 | FuncOpen . LPAREN ParameterList RPAREN LBRACE RBRACE
+   13                 | FuncOpen . LPAREN RPAREN Type LBRACE StatementList RBRACE
+   16                 | FuncOpen . LPAREN RPAREN LBRACE $@4 StatementList $@5 RBRACE
+
+    LPAREN  shift, and go to state 15
+
+
+State 10
+
+    7 PackageStmt: PACKAGE IDENT .
+
+    $default  reduce using rule 7 (PackageStmt)
+
+
+State 11
+
+   17 FuncOpen: FUNC IDENT .
+
+    $default  reduce using rule 17 (FuncOpen)
+
+
+State 12
+
+    0 $accept: Program $end .
+
+    $default  accept
+
+
+State 13
+
+    2 GlobalStatementList: GlobalStatementList GlobalStatement .
+
+    $default  reduce using rule 2 (GlobalStatementList)
+
+
+State 14
+
+    4 GlobalStatement: PackageStmt NEWLINE .
+
+    $default  reduce using rule 4 (GlobalStatement)
+
+
+State 15
+
+   11 FunctionDeclStmt: FuncOpen LPAREN . ParameterList RPAREN $@1 Type LBRACE $@2 StatementList $@3 RBRACE
+   12                 | FuncOpen LPAREN . ParameterList RPAREN LBRACE RBRACE
+   13                 | FuncOpen LPAREN . RPAREN Type LBRACE StatementList RBRACE
+   16                 | FuncOpen LPAREN . RPAREN LBRACE $@4 StatementList $@5 RBRACE
+
+    RPAREN  shift, and go to state 16
+    IDENT   shift, and go to state 17
+
+    ParameterList  go to state 18
+
+
+State 16
+
+   13 FunctionDeclStmt: FuncOpen LPAREN RPAREN . Type LBRACE StatementList RBRACE
+   16                 | FuncOpen LPAREN RPAREN . LBRACE $@4 StatementList $@5 RBRACE
+
+    INT     shift, and go to state 19
+    FLOAT   shift, and go to state 20
+    BOOL    shift, and go to state 21
+    STRING  shift, and go to state 22
+    LBRACE  shift, and go to state 23
+
+    Type  go to state 24
+
+
+State 17
+
+   18 ParameterList: IDENT . Type
+   19              | IDENT .
+
+    INT     shift, and go to state 19
+    FLOAT   shift, and go to state 20
+    BOOL    shift, and go to state 21
+    STRING  shift, and go to state 22
+
+    $default  reduce using rule 19 (ParameterList)
+
+    Type  go to state 25
+
+
+State 18
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList . RPAREN $@1 Type LBRACE $@2 StatementList $@3 RBRACE
+   12                 | FuncOpen LPAREN ParameterList . RPAREN LBRACE RBRACE
+   20 ParameterList: ParameterList . COMMA IDENT Type
+   21              | ParameterList . COMMA Literal
+
+    COMMA   shift, and go to state 26
+    RPAREN  shift, and go to state 27
+
+
+State 19
+
+   60 Type: INT .
+
+    $default  reduce using rule 60 (Type)
+
+
+State 20
+
+   61 Type: FLOAT .
+
+    $default  reduce using rule 61 (Type)
+
+
+State 21
+
+   62 Type: BOOL .
+
+    $default  reduce using rule 62 (Type)
+
+
+State 22
+
+   63 Type: STRING .
+
+    $default  reduce using rule 63 (Type)
+
+
+State 23
+
+   16 FunctionDeclStmt: FuncOpen LPAREN RPAREN LBRACE . $@4 StatementList $@5 RBRACE
+
+    $default  reduce using rule 14 ($@4)
+
+    $@4  go to state 28
+
+
+State 24
+
+   13 FunctionDeclStmt: FuncOpen LPAREN RPAREN Type . LBRACE StatementList RBRACE
+
+    LBRACE  shift, and go to state 29
+
+
+State 25
+
+   18 ParameterList: IDENT Type .
+
+    $default  reduce using rule 18 (ParameterList)
+
+
+State 26
+
+   20 ParameterList: ParameterList COMMA . IDENT Type
+   21              | ParameterList COMMA . Literal
+
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 34
+
+    Literal  go to state 35
+
+
+State 27
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN . $@1 Type LBRACE $@2 StatementList $@3 RBRACE
+   12                 | FuncOpen LPAREN ParameterList RPAREN . LBRACE RBRACE
+
+    LBRACE  shift, and go to state 36
+
+    $default  reduce using rule 8 ($@1)
+
+    $@1  go to state 37
+
+
+State 28
+
+   16 FunctionDeclStmt: FuncOpen LPAREN RPAREN LBRACE $@4 . StatementList $@5 RBRACE
+
+    VAR         shift, and go to state 38
+    NEWLINE     shift, and go to state 39
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    IF          shift, and go to state 40
+    FOR         shift, and go to state 41
+    SWITCH      shift, and go to state 42
+    CASE        shift, and go to state 43
+    DEFAULT     shift, and go to state 44
+    PRINT       shift, and go to state 45
+    PRINTLN     shift, and go to state 46
+    RETURN      shift, and go to state 47
+    LPAREN      shift, and go to state 48
+    LBRACE      shift, and go to state 49
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 53
+
+    ReturnStmt       go to state 54
+    PrimaryExpr      go to state 55
+    Expression       go to state 56
+    Multiplication   go to state 57
+    Addition         go to state 58
+    Comparison       go to state 59
+    Logicand         go to state 60
+    Logicor          go to state 61
+    UnaryExpr        go to state 62
+    Operand          go to state 63
+    Literal          go to state 64
+    ConversionExpr   go to state 65
+    Type             go to state 66
+    Statement        go to state 67
+    SimpleStmt       go to state 68
+    DeclarationStmt  go to state 69
+    AssignmentStmt   go to state 70
+    ExpressionStmt   go to state 71
+    IncDecStmt       go to state 72
+    Block            go to state 73
+    StatementList    go to state 74
+    IfStmt           go to state 75
+    ForStmt          go to state 76
+    SwitchStmt       go to state 77
+    CaseStmt         go to state 78
+    PrintStmt        go to state 79
+
+
+State 29
+
+   13 FunctionDeclStmt: FuncOpen LPAREN RPAREN Type LBRACE . StatementList RBRACE
+
+    VAR         shift, and go to state 38
+    NEWLINE     shift, and go to state 39
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    IF          shift, and go to state 40
+    FOR         shift, and go to state 41
+    SWITCH      shift, and go to state 42
+    CASE        shift, and go to state 43
+    DEFAULT     shift, and go to state 44
+    PRINT       shift, and go to state 45
+    PRINTLN     shift, and go to state 46
+    RETURN      shift, and go to state 47
+    LPAREN      shift, and go to state 48
+    LBRACE      shift, and go to state 49
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 53
+
+    ReturnStmt       go to state 54
+    PrimaryExpr      go to state 55
+    Expression       go to state 56
+    Multiplication   go to state 57
+    Addition         go to state 58
+    Comparison       go to state 59
+    Logicand         go to state 60
+    Logicor          go to state 61
+    UnaryExpr        go to state 62
+    Operand          go to state 63
+    Literal          go to state 64
+    ConversionExpr   go to state 65
+    Type             go to state 66
+    Statement        go to state 67
+    SimpleStmt       go to state 68
+    DeclarationStmt  go to state 69
+    AssignmentStmt   go to state 70
+    ExpressionStmt   go to state 71
+    IncDecStmt       go to state 72
+    Block            go to state 73
+    StatementList    go to state 80
+    IfStmt           go to state 75
+    ForStmt          go to state 76
+    SwitchStmt       go to state 77
+    CaseStmt         go to state 78
+    PrintStmt        go to state 79
+
+
+State 30
+
+   55 Literal: INT_LIT .
+
+    $default  reduce using rule 55 (Literal)
+
+
+State 31
+
+   56 Literal: FLOAT_LIT .
+
+    $default  reduce using rule 56 (Literal)
+
+
+State 32
+
+   57 Literal: BOOL_LIT .
+
+    $default  reduce using rule 57 (Literal)
+
+
+State 33
+
+   58 Literal: STRING_LIT .
+
+    $default  reduce using rule 58 (Literal)
+
+
+State 34
+
+   20 ParameterList: ParameterList COMMA IDENT . Type
+
+    INT     shift, and go to state 19
+    FLOAT   shift, and go to state 20
+    BOOL    shift, and go to state 21
+    STRING  shift, and go to state 22
+
+    Type  go to state 81
+
+
+State 35
+
+   21 ParameterList: ParameterList COMMA Literal .
+
+    $default  reduce using rule 21 (ParameterList)
+
+
+State 36
+
+   12 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN LBRACE . RBRACE
+
+    RBRACE  shift, and go to state 82
+
+
+State 37
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 . Type LBRACE $@2 StatementList $@3 RBRACE
+
+    INT     shift, and go to state 19
+    FLOAT   shift, and go to state 20
+    BOOL    shift, and go to state 21
+    STRING  shift, and go to state 22
+
+    Type  go to state 83
+
+
+State 38
+
+   77 DeclarationStmt: VAR . IDENT Type
+   78                | VAR . IDENT Type ASSIGN Expression
+
+    IDENT  shift, and go to state 84
+
+
+State 39
+
+   73 Statement: NEWLINE .
+
+    $default  reduce using rule 73 (Statement)
+
+
+State 40
+
+   94 IfStmt: IF . Condition Block ELSE IfStmt
+   95       | IF . Condition Block ELSE Block
+   96       | IF . Condition Block
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 86
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+    Condition       go to state 87
+
+
+State 41
+
+   99 ForStmt: FOR . $@10 Condition Block
+
+    $default  reduce using rule 98 ($@10)
+
+    $@10  go to state 88
+
+
+State 42
+
+  101 SwitchStmt: SWITCH . Expression $@11 Block
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 89
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 43
+
+  103 CaseStmt: CASE . INT_LIT $@12 COLON Block
+
+    INT_LIT  shift, and go to state 90
+
+
+State 44
+
+  105 CaseStmt: DEFAULT . $@13 COLON Block
+
+    $default  reduce using rule 104 ($@13)
+
+    $@13  go to state 91
+
+
+State 45
+
+  106 PrintStmt: PRINT . LPAREN Expression RPAREN
+
+    LPAREN  shift, and go to state 92
+
+
+State 46
+
+  107 PrintStmt: PRINTLN . LPAREN Expression RPAREN
+
+    LPAREN  shift, and go to state 93
+
+
+State 47
+
+   22 ReturnStmt: RETURN . Expression
+   23           | RETURN .
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    $default  reduce using rule 23 (ReturnStmt)
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 94
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 48
+
+   51 Operand: LPAREN . Expression RPAREN
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 95
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 49
+
+   91 Block: LBRACE . $@8 StatementList $@9 RBRACE
+
+    $default  reduce using rule 89 ($@8)
+
+    $@8  go to state 96
+
+
+State 50
+
+   46 UnaryExpr: ADD . UnaryExpr
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    UnaryExpr       go to state 97
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 51
+
+   47 UnaryExpr: SUB . UnaryExpr
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    UnaryExpr       go to state 98
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 52
+
+   48 UnaryExpr: NOT . UnaryExpr
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    UnaryExpr       go to state 99
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 53
+
+   50 Operand: IDENT .
+   52        | IDENT . LPAREN RPAREN
+   54        | IDENT . LPAREN $@6 ParameterList RPAREN
+   80 AssignmentStmt: IDENT . $@7 ASSIGN Expression
+
+    LPAREN  shift, and go to state 100
+
+    ASSIGN    reduce using rule 79 ($@7)
+    $default  reduce using rule 50 (Operand)
+
+    $@7  go to state 101
+
+
+State 54
+
+   72 Statement: ReturnStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 102
+
+
+State 55
+
+   45 UnaryExpr: PrimaryExpr .
+
+    $default  reduce using rule 45 (UnaryExpr)
+
+
+State 56
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   81 AssignmentStmt: Expression . ADD_ASSIGN Expression
+   82               | Expression . SUB_ASSIGN Expression
+   83               | Expression . MUL_ASSIGN Expression
+   84               | Expression . QUO_ASSIGN Expression
+   85               | Expression . REM_ASSIGN Expression
+   86 ExpressionStmt: Expression .
+   87 IncDecStmt: Expression . INC
+   88           | Expression . DEC
+
+    ADD_ASSIGN  shift, and go to state 103
+    SUB_ASSIGN  shift, and go to state 104
+    MUL_ASSIGN  shift, and go to state 105
+    QUO_ASSIGN  shift, and go to state 106
+    REM_ASSIGN  shift, and go to state 107
+    LOR         shift, and go to state 108
+    LAND        shift, and go to state 109
+    GTR         shift, and go to state 110
+    LSS         shift, and go to state 111
+    GEQ         shift, and go to state 112
+    LEQ         shift, and go to state 113
+    EQL         shift, and go to state 114
+    NEQ         shift, and go to state 115
+    ADD         shift, and go to state 116
+    SUB         shift, and go to state 117
+    MUL         shift, and go to state 118
+    QUO         shift, and go to state 119
+    REM         shift, and go to state 120
+    INC         shift, and go to state 121
+    DEC         shift, and go to state 122
+
+    $default  reduce using rule 86 (ExpressionStmt)
+
+
+State 57
+
+   27 Expression: Multiplication .
+
+    $default  reduce using rule 27 (Expression)
+
+
+State 58
+
+   31 Multiplication: Addition .
+
+    $default  reduce using rule 31 (Multiplication)
+
+
+State 59
+
+   34 Addition: Comparison .
+
+    $default  reduce using rule 34 (Addition)
+
+
+State 60
+
+   41 Comparison: Logicand .
+
+    $default  reduce using rule 41 (Comparison)
+
+
+State 61
+
+   43 Logicand: Logicor .
+
+    $default  reduce using rule 43 (Logicand)
+
+
+State 62
+
+   26 Expression: UnaryExpr .
+
+    $default  reduce using rule 26 (Expression)
+
+
+State 63
+
+   24 PrimaryExpr: Operand .
+
+    $default  reduce using rule 24 (PrimaryExpr)
+
+
+State 64
+
+   49 Operand: Literal .
+
+    $default  reduce using rule 49 (Operand)
+
+
+State 65
+
+   25 PrimaryExpr: ConversionExpr .
+
+    $default  reduce using rule 25 (PrimaryExpr)
+
+
+State 66
+
+   59 ConversionExpr: Type . LPAREN Expression RPAREN
+
+    LPAREN  shift, and go to state 123
+
+
+State 67
+
+   92 StatementList: Statement . StatementList
+   93              | Statement .
+
+    VAR         shift, and go to state 38
+    NEWLINE     shift, and go to state 39
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    IF          shift, and go to state 40
+    FOR         shift, and go to state 41
+    SWITCH      shift, and go to state 42
+    CASE        shift, and go to state 43
+    DEFAULT     shift, and go to state 44
+    PRINT       shift, and go to state 45
+    PRINTLN     shift, and go to state 46
+    RETURN      shift, and go to state 47
+    LPAREN      shift, and go to state 48
+    LBRACE      shift, and go to state 49
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 53
+
+    $default  reduce using rule 93 (StatementList)
+
+    ReturnStmt       go to state 54
+    PrimaryExpr      go to state 55
+    Expression       go to state 56
+    Multiplication   go to state 57
+    Addition         go to state 58
+    Comparison       go to state 59
+    Logicand         go to state 60
+    Logicor          go to state 61
+    UnaryExpr        go to state 62
+    Operand          go to state 63
+    Literal          go to state 64
+    ConversionExpr   go to state 65
+    Type             go to state 66
+    Statement        go to state 67
+    SimpleStmt       go to state 68
+    DeclarationStmt  go to state 69
+    AssignmentStmt   go to state 70
+    ExpressionStmt   go to state 71
+    IncDecStmt       go to state 72
+    Block            go to state 73
+    StatementList    go to state 124
+    IfStmt           go to state 75
+    ForStmt          go to state 76
+    SwitchStmt       go to state 77
+    CaseStmt         go to state 78
+    PrintStmt        go to state 79
+
+
+State 68
+
+   65 Statement: SimpleStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 125
+
+
+State 69
+
+   64 Statement: DeclarationStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 126
+
+
+State 70
+
+   74 SimpleStmt: AssignmentStmt .
+
+    $default  reduce using rule 74 (SimpleStmt)
+
+
+State 71
+
+   75 SimpleStmt: ExpressionStmt .
+
+    $default  reduce using rule 75 (SimpleStmt)
+
+
+State 72
+
+   76 SimpleStmt: IncDecStmt .
+
+    $default  reduce using rule 76 (SimpleStmt)
+
+
+State 73
+
+   66 Statement: Block .
+
+    $default  reduce using rule 66 (Statement)
+
+
+State 74
+
+   16 FunctionDeclStmt: FuncOpen LPAREN RPAREN LBRACE $@4 StatementList . $@5 RBRACE
+
+    $default  reduce using rule 15 ($@5)
+
+    $@5  go to state 127
+
+
+State 75
+
+   67 Statement: IfStmt .
+
+    $default  reduce using rule 67 (Statement)
+
+
+State 76
+
+   68 Statement: ForStmt .
+
+    $default  reduce using rule 68 (Statement)
+
+
+State 77
+
+   69 Statement: SwitchStmt .
+
+    $default  reduce using rule 69 (Statement)
+
+
+State 78
+
+   70 Statement: CaseStmt .
+
+    $default  reduce using rule 70 (Statement)
+
+
+State 79
+
+   71 Statement: PrintStmt . NEWLINE
+
+    NEWLINE  shift, and go to state 128
+
+
+State 80
+
+   13 FunctionDeclStmt: FuncOpen LPAREN RPAREN Type LBRACE StatementList . RBRACE
+
+    RBRACE  shift, and go to state 129
+
+
+State 81
+
+   20 ParameterList: ParameterList COMMA IDENT Type .
+
+    $default  reduce using rule 20 (ParameterList)
+
+
+State 82
+
+   12 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN LBRACE RBRACE .
+
+    $default  reduce using rule 12 (FunctionDeclStmt)
+
+
+State 83
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 Type . LBRACE $@2 StatementList $@3 RBRACE
+
+    LBRACE  shift, and go to state 130
+
+
+State 84
+
+   77 DeclarationStmt: VAR IDENT . Type
+   78                | VAR IDENT . Type ASSIGN Expression
+
+    INT     shift, and go to state 19
+    FLOAT   shift, and go to state 20
+    BOOL    shift, and go to state 21
+    STRING  shift, and go to state 22
+
+    Type  go to state 131
+
+
+State 85
+
+   50 Operand: IDENT .
+   52        | IDENT . LPAREN RPAREN
+   54        | IDENT . LPAREN $@6 ParameterList RPAREN
+
+    LPAREN  shift, and go to state 100
+
+    $default  reduce using rule 50 (Operand)
+
+
+State 86
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   97 Condition: Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 97 (Condition)
+
+
+State 87
+
+   94 IfStmt: IF Condition . Block ELSE IfStmt
+   95       | IF Condition . Block ELSE Block
+   96       | IF Condition . Block
+
+    LBRACE  shift, and go to state 49
+
+    Block  go to state 132
+
+
+State 88
+
+   99 ForStmt: FOR $@10 . Condition Block
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 86
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+    Condition       go to state 133
+
+
+State 89
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+  101 SwitchStmt: SWITCH Expression . $@11 Block
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 100 ($@11)
+
+    $@11  go to state 134
+
+
+State 90
+
+  103 CaseStmt: CASE INT_LIT . $@12 COLON Block
+
+    $default  reduce using rule 102 ($@12)
+
+    $@12  go to state 135
+
+
+State 91
+
+  105 CaseStmt: DEFAULT $@13 . COLON Block
+
+    COLON  shift, and go to state 136
+
+
+State 92
+
+  106 PrintStmt: PRINT LPAREN . Expression RPAREN
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 137
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 93
+
+  107 PrintStmt: PRINTLN LPAREN . Expression RPAREN
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 138
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 94
+
+   22 ReturnStmt: RETURN Expression .
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 22 (ReturnStmt)
+
+
+State 95
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   51 Operand: LPAREN Expression . RPAREN
+
+    RPAREN  shift, and go to state 139
+    LOR     shift, and go to state 108
+    LAND    shift, and go to state 109
+    GTR     shift, and go to state 110
+    LSS     shift, and go to state 111
+    GEQ     shift, and go to state 112
+    LEQ     shift, and go to state 113
+    EQL     shift, and go to state 114
+    NEQ     shift, and go to state 115
+    ADD     shift, and go to state 116
+    SUB     shift, and go to state 117
+    MUL     shift, and go to state 118
+    QUO     shift, and go to state 119
+    REM     shift, and go to state 120
+
+
+State 96
+
+   91 Block: LBRACE $@8 . StatementList $@9 RBRACE
+
+    VAR         shift, and go to state 38
+    NEWLINE     shift, and go to state 39
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    IF          shift, and go to state 40
+    FOR         shift, and go to state 41
+    SWITCH      shift, and go to state 42
+    CASE        shift, and go to state 43
+    DEFAULT     shift, and go to state 44
+    PRINT       shift, and go to state 45
+    PRINTLN     shift, and go to state 46
+    RETURN      shift, and go to state 47
+    LPAREN      shift, and go to state 48
+    LBRACE      shift, and go to state 49
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 53
+
+    ReturnStmt       go to state 54
+    PrimaryExpr      go to state 55
+    Expression       go to state 56
+    Multiplication   go to state 57
+    Addition         go to state 58
+    Comparison       go to state 59
+    Logicand         go to state 60
+    Logicor          go to state 61
+    UnaryExpr        go to state 62
+    Operand          go to state 63
+    Literal          go to state 64
+    ConversionExpr   go to state 65
+    Type             go to state 66
+    Statement        go to state 67
+    SimpleStmt       go to state 68
+    DeclarationStmt  go to state 69
+    AssignmentStmt   go to state 70
+    ExpressionStmt   go to state 71
+    IncDecStmt       go to state 72
+    Block            go to state 73
+    StatementList    go to state 140
+    IfStmt           go to state 75
+    ForStmt          go to state 76
+    SwitchStmt       go to state 77
+    CaseStmt         go to state 78
+    PrintStmt        go to state 79
+
+
+State 97
+
+   46 UnaryExpr: ADD UnaryExpr .
+
+    $default  reduce using rule 46 (UnaryExpr)
+
+
+State 98
+
+   47 UnaryExpr: SUB UnaryExpr .
+
+    $default  reduce using rule 47 (UnaryExpr)
+
+
+State 99
+
+   48 UnaryExpr: NOT UnaryExpr .
+
+    $default  reduce using rule 48 (UnaryExpr)
+
+
+State 100
+
+   52 Operand: IDENT LPAREN . RPAREN
+   54        | IDENT LPAREN . $@6 ParameterList RPAREN
+
+    RPAREN  shift, and go to state 141
+
+    $default  reduce using rule 53 ($@6)
+
+    $@6  go to state 142
+
+
+State 101
+
+   80 AssignmentStmt: IDENT $@7 . ASSIGN Expression
+
+    ASSIGN  shift, and go to state 143
+
+
+State 102
+
+   72 Statement: ReturnStmt NEWLINE .
+
+    $default  reduce using rule 72 (Statement)
+
+
+State 103
+
+   81 AssignmentStmt: Expression ADD_ASSIGN . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 144
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 104
+
+   82 AssignmentStmt: Expression SUB_ASSIGN . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 145
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 105
+
+   83 AssignmentStmt: Expression MUL_ASSIGN . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 146
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 106
+
+   84 AssignmentStmt: Expression QUO_ASSIGN . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 147
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 107
+
+   85 AssignmentStmt: Expression REM_ASSIGN . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 148
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 108
+
+   44 Logicor: Expression LOR . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 149
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 109
+
+   42 Logicand: Expression LAND . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 150
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 110
+
+   39 Comparison: Expression GTR . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 151
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 111
+
+   37 Comparison: Expression LSS . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 152
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 112
+
+   40 Comparison: Expression GEQ . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 153
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 113
+
+   38 Comparison: Expression LEQ . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 154
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 114
+
+   35 Comparison: Expression EQL . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 155
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 115
+
+   36 Comparison: Expression NEQ . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 156
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 116
+
+   32 Addition: Expression ADD . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 157
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 117
+
+   33 Addition: Expression SUB . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 158
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 118
+
+   28 Multiplication: Expression MUL . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 159
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 119
+
+   29 Multiplication: Expression QUO . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 160
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 120
+
+   30 Multiplication: Expression REM . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 161
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 121
+
+   87 IncDecStmt: Expression INC .
+
+    $default  reduce using rule 87 (IncDecStmt)
+
+
+State 122
+
+   88 IncDecStmt: Expression DEC .
+
+    $default  reduce using rule 88 (IncDecStmt)
+
+
+State 123
+
+   59 ConversionExpr: Type LPAREN . Expression RPAREN
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 162
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 124
+
+   92 StatementList: Statement StatementList .
+
+    $default  reduce using rule 92 (StatementList)
+
+
+State 125
+
+   65 Statement: SimpleStmt NEWLINE .
+
+    $default  reduce using rule 65 (Statement)
+
+
+State 126
+
+   64 Statement: DeclarationStmt NEWLINE .
+
+    $default  reduce using rule 64 (Statement)
+
+
+State 127
+
+   16 FunctionDeclStmt: FuncOpen LPAREN RPAREN LBRACE $@4 StatementList $@5 . RBRACE
+
+    RBRACE  shift, and go to state 163
+
+
+State 128
+
+   71 Statement: PrintStmt NEWLINE .
+
+    $default  reduce using rule 71 (Statement)
+
+
+State 129
+
+   13 FunctionDeclStmt: FuncOpen LPAREN RPAREN Type LBRACE StatementList RBRACE .
+
+    $default  reduce using rule 13 (FunctionDeclStmt)
+
+
+State 130
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 Type LBRACE . $@2 StatementList $@3 RBRACE
+
+    $default  reduce using rule 9 ($@2)
+
+    $@2  go to state 164
+
+
+State 131
+
+   77 DeclarationStmt: VAR IDENT Type .
+   78                | VAR IDENT Type . ASSIGN Expression
+
+    ASSIGN  shift, and go to state 165
+
+    $default  reduce using rule 77 (DeclarationStmt)
+
+
+State 132
+
+   94 IfStmt: IF Condition Block . ELSE IfStmt
+   95       | IF Condition Block . ELSE Block
+   96       | IF Condition Block .
+
+    ELSE  shift, and go to state 166
+
+    $default  reduce using rule 96 (IfStmt)
+
+
+State 133
+
+   99 ForStmt: FOR $@10 Condition . Block
+
+    LBRACE  shift, and go to state 49
+
+    Block  go to state 167
+
+
+State 134
+
+  101 SwitchStmt: SWITCH Expression $@11 . Block
+
+    LBRACE  shift, and go to state 49
+
+    Block  go to state 168
+
+
+State 135
+
+  103 CaseStmt: CASE INT_LIT $@12 . COLON Block
+
+    COLON  shift, and go to state 169
+
+
+State 136
+
+  105 CaseStmt: DEFAULT $@13 COLON . Block
+
+    LBRACE  shift, and go to state 49
+
+    Block  go to state 170
+
+
+State 137
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+  106 PrintStmt: PRINT LPAREN Expression . RPAREN
+
+    RPAREN  shift, and go to state 171
+    LOR     shift, and go to state 108
+    LAND    shift, and go to state 109
+    GTR     shift, and go to state 110
+    LSS     shift, and go to state 111
+    GEQ     shift, and go to state 112
+    LEQ     shift, and go to state 113
+    EQL     shift, and go to state 114
+    NEQ     shift, and go to state 115
+    ADD     shift, and go to state 116
+    SUB     shift, and go to state 117
+    MUL     shift, and go to state 118
+    QUO     shift, and go to state 119
+    REM     shift, and go to state 120
+
+
+State 138
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+  107 PrintStmt: PRINTLN LPAREN Expression . RPAREN
+
+    RPAREN  shift, and go to state 172
+    LOR     shift, and go to state 108
+    LAND    shift, and go to state 109
+    GTR     shift, and go to state 110
+    LSS     shift, and go to state 111
+    GEQ     shift, and go to state 112
+    LEQ     shift, and go to state 113
+    EQL     shift, and go to state 114
+    NEQ     shift, and go to state 115
+    ADD     shift, and go to state 116
+    SUB     shift, and go to state 117
+    MUL     shift, and go to state 118
+    QUO     shift, and go to state 119
+    REM     shift, and go to state 120
+
+
+State 139
+
+   51 Operand: LPAREN Expression RPAREN .
+
+    $default  reduce using rule 51 (Operand)
+
+
+State 140
+
+   91 Block: LBRACE $@8 StatementList . $@9 RBRACE
+
+    $default  reduce using rule 90 ($@9)
+
+    $@9  go to state 173
+
+
+State 141
+
+   52 Operand: IDENT LPAREN RPAREN .
+
+    $default  reduce using rule 52 (Operand)
+
+
+State 142
+
+   54 Operand: IDENT LPAREN $@6 . ParameterList RPAREN
+
+    IDENT  shift, and go to state 17
+
+    ParameterList  go to state 174
+
+
+State 143
+
+   80 AssignmentStmt: IDENT $@7 ASSIGN . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 175
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 144
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   81 AssignmentStmt: Expression ADD_ASSIGN Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 81 (AssignmentStmt)
+
+
+State 145
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   82 AssignmentStmt: Expression SUB_ASSIGN Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 82 (AssignmentStmt)
+
+
+State 146
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   83 AssignmentStmt: Expression MUL_ASSIGN Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 83 (AssignmentStmt)
+
+
+State 147
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   84 AssignmentStmt: Expression QUO_ASSIGN Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 84 (AssignmentStmt)
+
+
+State 148
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   85 AssignmentStmt: Expression REM_ASSIGN Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 85 (AssignmentStmt)
+
+
+State 149
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   44        | Expression LOR Expression .
+
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 44 (Logicor)
+
+
+State 150
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   42         | Expression LAND Expression .
+   44 Logicor: Expression . LOR Expression
+
+    GTR  shift, and go to state 110
+    LSS  shift, and go to state 111
+    GEQ  shift, and go to state 112
+    LEQ  shift, and go to state 113
+    EQL  shift, and go to state 114
+    NEQ  shift, and go to state 115
+    ADD  shift, and go to state 116
+    SUB  shift, and go to state 117
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 42 (Logicand)
+
+
+State 151
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   39           | Expression GTR Expression .
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    ADD  shift, and go to state 116
+    SUB  shift, and go to state 117
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 39 (Comparison)
+
+
+State 152
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   37           | Expression LSS Expression .
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    ADD  shift, and go to state 116
+    SUB  shift, and go to state 117
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 37 (Comparison)
+
+
+State 153
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   40           | Expression GEQ Expression .
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    ADD  shift, and go to state 116
+    SUB  shift, and go to state 117
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 40 (Comparison)
+
+
+State 154
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   38           | Expression LEQ Expression .
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    ADD  shift, and go to state 116
+    SUB  shift, and go to state 117
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 38 (Comparison)
+
+
+State 155
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   35           | Expression EQL Expression .
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    ADD  shift, and go to state 116
+    SUB  shift, and go to state 117
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 35 (Comparison)
+
+
+State 156
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   36           | Expression NEQ Expression .
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    ADD  shift, and go to state 116
+    SUB  shift, and go to state 117
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 36 (Comparison)
+
+
+State 157
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   32         | Expression ADD Expression .
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 32 (Addition)
+
+
+State 158
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   33         | Expression SUB Expression .
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    MUL  shift, and go to state 118
+    QUO  shift, and go to state 119
+    REM  shift, and go to state 120
+
+    $default  reduce using rule 33 (Addition)
+
+
+State 159
+
+   28 Multiplication: Expression . MUL Expression
+   28               | Expression MUL Expression .
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    $default  reduce using rule 28 (Multiplication)
+
+
+State 160
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   29               | Expression QUO Expression .
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    $default  reduce using rule 29 (Multiplication)
+
+
+State 161
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   30               | Expression REM Expression .
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+
+    $default  reduce using rule 30 (Multiplication)
+
+
+State 162
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   59 ConversionExpr: Type LPAREN Expression . RPAREN
+
+    RPAREN  shift, and go to state 176
+    LOR     shift, and go to state 108
+    LAND    shift, and go to state 109
+    GTR     shift, and go to state 110
+    LSS     shift, and go to state 111
+    GEQ     shift, and go to state 112
+    LEQ     shift, and go to state 113
+    EQL     shift, and go to state 114
+    NEQ     shift, and go to state 115
+    ADD     shift, and go to state 116
+    SUB     shift, and go to state 117
+    MUL     shift, and go to state 118
+    QUO     shift, and go to state 119
+    REM     shift, and go to state 120
+
+
+State 163
+
+   16 FunctionDeclStmt: FuncOpen LPAREN RPAREN LBRACE $@4 StatementList $@5 RBRACE .
+
+    $default  reduce using rule 16 (FunctionDeclStmt)
+
+
+State 164
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 Type LBRACE $@2 . StatementList $@3 RBRACE
+
+    VAR         shift, and go to state 38
+    NEWLINE     shift, and go to state 39
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    IF          shift, and go to state 40
+    FOR         shift, and go to state 41
+    SWITCH      shift, and go to state 42
+    CASE        shift, and go to state 43
+    DEFAULT     shift, and go to state 44
+    PRINT       shift, and go to state 45
+    PRINTLN     shift, and go to state 46
+    RETURN      shift, and go to state 47
+    LPAREN      shift, and go to state 48
+    LBRACE      shift, and go to state 49
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 53
+
+    ReturnStmt       go to state 54
+    PrimaryExpr      go to state 55
+    Expression       go to state 56
+    Multiplication   go to state 57
+    Addition         go to state 58
+    Comparison       go to state 59
+    Logicand         go to state 60
+    Logicor          go to state 61
+    UnaryExpr        go to state 62
+    Operand          go to state 63
+    Literal          go to state 64
+    ConversionExpr   go to state 65
+    Type             go to state 66
+    Statement        go to state 67
+    SimpleStmt       go to state 68
+    DeclarationStmt  go to state 69
+    AssignmentStmt   go to state 70
+    ExpressionStmt   go to state 71
+    IncDecStmt       go to state 72
+    Block            go to state 73
+    StatementList    go to state 177
+    IfStmt           go to state 75
+    ForStmt          go to state 76
+    SwitchStmt       go to state 77
+    CaseStmt         go to state 78
+    PrintStmt        go to state 79
+
+
+State 165
+
+   78 DeclarationStmt: VAR IDENT Type ASSIGN . Expression
+
+    INT         shift, and go to state 19
+    FLOAT       shift, and go to state 20
+    BOOL        shift, and go to state 21
+    STRING      shift, and go to state 22
+    LPAREN      shift, and go to state 48
+    ADD         shift, and go to state 50
+    SUB         shift, and go to state 51
+    NOT         shift, and go to state 52
+    INT_LIT     shift, and go to state 30
+    FLOAT_LIT   shift, and go to state 31
+    BOOL_LIT    shift, and go to state 32
+    STRING_LIT  shift, and go to state 33
+    IDENT       shift, and go to state 85
+
+    PrimaryExpr     go to state 55
+    Expression      go to state 178
+    Multiplication  go to state 57
+    Addition        go to state 58
+    Comparison      go to state 59
+    Logicand        go to state 60
+    Logicor         go to state 61
+    UnaryExpr       go to state 62
+    Operand         go to state 63
+    Literal         go to state 64
+    ConversionExpr  go to state 65
+    Type            go to state 66
+
+
+State 166
+
+   94 IfStmt: IF Condition Block ELSE . IfStmt
+   95       | IF Condition Block ELSE . Block
+
+    IF      shift, and go to state 40
+    LBRACE  shift, and go to state 49
+
+    Block   go to state 179
+    IfStmt  go to state 180
+
+
+State 167
+
+   99 ForStmt: FOR $@10 Condition Block .
+
+    $default  reduce using rule 99 (ForStmt)
+
+
+State 168
+
+  101 SwitchStmt: SWITCH Expression $@11 Block .
+
+    $default  reduce using rule 101 (SwitchStmt)
+
+
+State 169
+
+  103 CaseStmt: CASE INT_LIT $@12 COLON . Block
+
+    LBRACE  shift, and go to state 49
+
+    Block  go to state 181
+
+
+State 170
+
+  105 CaseStmt: DEFAULT $@13 COLON Block .
+
+    $default  reduce using rule 105 (CaseStmt)
+
+
+State 171
+
+  106 PrintStmt: PRINT LPAREN Expression RPAREN .
+
+    $default  reduce using rule 106 (PrintStmt)
+
+
+State 172
+
+  107 PrintStmt: PRINTLN LPAREN Expression RPAREN .
+
+    $default  reduce using rule 107 (PrintStmt)
+
+
+State 173
+
+   91 Block: LBRACE $@8 StatementList $@9 . RBRACE
+
+    RBRACE  shift, and go to state 182
+
+
+State 174
+
+   20 ParameterList: ParameterList . COMMA IDENT Type
+   21              | ParameterList . COMMA Literal
+   54 Operand: IDENT LPAREN $@6 ParameterList . RPAREN
+
+    COMMA   shift, and go to state 26
+    RPAREN  shift, and go to state 183
+
+
+State 175
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   80 AssignmentStmt: IDENT $@7 ASSIGN Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 80 (AssignmentStmt)
+
+
+State 176
+
+   59 ConversionExpr: Type LPAREN Expression RPAREN .
+
+    $default  reduce using rule 59 (ConversionExpr)
+
+
+State 177
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 Type LBRACE $@2 StatementList . $@3 RBRACE
+
+    $default  reduce using rule 10 ($@3)
+
+    $@3  go to state 184
+
+
+State 178
+
+   28 Multiplication: Expression . MUL Expression
+   29               | Expression . QUO Expression
+   30               | Expression . REM Expression
+   32 Addition: Expression . ADD Expression
+   33         | Expression . SUB Expression
+   35 Comparison: Expression . EQL Expression
+   36           | Expression . NEQ Expression
+   37           | Expression . LSS Expression
+   38           | Expression . LEQ Expression
+   39           | Expression . GTR Expression
+   40           | Expression . GEQ Expression
+   42 Logicand: Expression . LAND Expression
+   44 Logicor: Expression . LOR Expression
+   78 DeclarationStmt: VAR IDENT Type ASSIGN Expression .
+
+    LOR   shift, and go to state 108
+    LAND  shift, and go to state 109
+    GTR   shift, and go to state 110
+    LSS   shift, and go to state 111
+    GEQ   shift, and go to state 112
+    LEQ   shift, and go to state 113
+    EQL   shift, and go to state 114
+    NEQ   shift, and go to state 115
+    ADD   shift, and go to state 116
+    SUB   shift, and go to state 117
+    MUL   shift, and go to state 118
+    QUO   shift, and go to state 119
+    REM   shift, and go to state 120
+
+    $default  reduce using rule 78 (DeclarationStmt)
+
+
+State 179
+
+   95 IfStmt: IF Condition Block ELSE Block .
+
+    $default  reduce using rule 95 (IfStmt)
+
+
+State 180
+
+   94 IfStmt: IF Condition Block ELSE IfStmt .
+
+    $default  reduce using rule 94 (IfStmt)
+
+
+State 181
+
+  103 CaseStmt: CASE INT_LIT $@12 COLON Block .
+
+    $default  reduce using rule 103 (CaseStmt)
+
+
+State 182
+
+   91 Block: LBRACE $@8 StatementList $@9 RBRACE .
+
+    $default  reduce using rule 91 (Block)
+
+
+State 183
+
+   54 Operand: IDENT LPAREN $@6 ParameterList RPAREN .
+
+    $default  reduce using rule 54 (Operand)
+
+
+State 184
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 Type LBRACE $@2 StatementList $@3 . RBRACE
+
+    RBRACE  shift, and go to state 185
+
+
+State 185
+
+   11 FunctionDeclStmt: FuncOpen LPAREN ParameterList RPAREN $@1 Type LBRACE $@2 StatementList $@3 RBRACE .
+
+    $default  reduce using rule 11 (FunctionDeclStmt)

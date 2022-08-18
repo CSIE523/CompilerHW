@@ -1,0 +1,7 @@
+./myparser < input/in01_arithmetic.go >| tmp.out
+diff -y tmp.out answer/in01_arithmetic.out
+
+
+
+%type猜測用在於grammar後要{printf()}的東西的type
+%token<xxx>猜測用於terminal的Datatype 
